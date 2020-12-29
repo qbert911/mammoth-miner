@@ -1,15 +1,3 @@
-
-tilelist = [("wall",  "white", 0xE108),
-            ("dirt0", "white", 0xE000),
-            ("dirt1", "white", 0xE001),
-            ("dirt2", "white", 0xE002),
-            ("dirt3", "white", 0xE003),
-            ("dirt4", "white", 0xE004),
-            ("dirt9", "gray", 0xE004),
-            ("find1", "white", 0xE020),
-            ("player","white", 0xE400)
-           ]
-#------------------------------------------------------------------------------#
 MESSAGE_SIZE_Y = 3
 STATS_PANEL_X = 10
 CELLS_ACROSS = 40

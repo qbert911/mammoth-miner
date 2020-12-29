@@ -19,10 +19,9 @@ class World:
         self.mapdata = [[int(random.random()*2) for i in range(constants.MAP_SIZE_Y)]
                                                 for j in range(constants.MAP_SIZE_X)]
         self.map_cosmetic_bg = [[int(random.random()*5) for i in range(constants.MAP_SIZE_Y)]
-                                                for j in range(constants.MAP_SIZE_X)]
-        self.map_cosmetic_fg = [[int(random.random()*2) for i in range(constants.MAP_SIZE_Y)]
+                                                        for j in range(constants.MAP_SIZE_X)]
+        self.map_cosmetic_fg = [[int(0) for i in range(constants.MAP_SIZE_Y)]
                                         for j in range(constants.MAP_SIZE_X)]
-
         self.startup_menu()
 
     def startup_menu(self):
@@ -41,18 +40,19 @@ class World:
                 mytile = "dirt"+str(self.map_cosmetic_bg[x+self.view_offset_x][y+self.view_offset_y])
                 terminal.color(tiles.seek_tile_color(mytile))
                 terminal.put(x*constants.XFACTOR, y, tiles.seek_tile(mytile))
+                #draw text on top if desired
+                if self.mapdata[x+self.view_offset_x][y+self.view_offset_y] > 0:
+                    myout = "" #self.mapdata[x+self.view_offset_x][y+self.view_offset_y]
+                    #myout = self.map_cosmetic_fg[x+self.view_offset_x][y+self.view_offset_y] #for testing
+                else:
+                    myout = ""
+                terminal.puts(x*constants.XFACTOR, y, str(myout).rjust(2))
+
                 #draw each symbol on top of background
                 if self.map_cosmetic_fg[x+self.view_offset_x][y+self.view_offset_y] > 0:
                     mytile = "find"+str(self.map_cosmetic_fg[x+self.view_offset_x][y+self.view_offset_y])
                     terminal.color(tiles.seek_tile_color(mytile))
                     terminal.put(x*constants.XFACTOR, y, tiles.seek_tile(mytile))
-                #draw text on top
-                if self.mapdata[x+self.view_offset_x][y+self.view_offset_y] > 0:
-                    myout = "" #self.mapdata[x+self.view_offset_x][y+self.view_offset_y]
-                    #myout = self.map_cosmetic_bg[x+self.view_offset_x][y+self.view_offset_y] #for testing
-                else:
-                    myout = ""
-                terminal.puts(x*constants.XFACTOR, y, str(myout).rjust(2))
 #Draw player sprite
         terminal.color(tiles.seek_tile_color("player"))
         terminal.put(self.player_x*constants.XFACTOR, self.player_y, tiles.seek_tile("player"))
@@ -64,9 +64,9 @@ class World:
         for m in range(constants.MESSAGE_SIZE_Y+1):
             terminal.puts(0, constants.CONSOLE_SIZE_Y-m, self.log[-m])
 #Draw info panel
-        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 0, "Info line1")
+        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 0, "Score:")
         terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 1, str(self.player_score))
-        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 2, "1234567890abcdefg")
+        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 4, str(self.player_x)+" "+str(self.player_y))
         terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 10, "view "+str(constants.MAP_SIZE_X)+" "+str(constants.MAP_SIZE_Y))
         terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 11, str(constants.STATS_PANEL_X)+"(/"+str(constants.XFACTOR)+") "+str(constants.MESSAGE_SIZE_Y))
         terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 14, str(constants.CELLS_ACROSS)+" "+str(constants.CELLS_DOWN))
@@ -89,14 +89,36 @@ class World:
             dx = +1;  dy = 0
 
         if self.is_in_bounds(dx,dy):
-            self.log.append("Moved "+ str(dx)+" "+str(dy))
+            #self.log.append("Moved "+ str(dx)+" "+str(dy))
             self.player_x += dx
             self.player_y += dy
-            self.action_player_enters_square(self.player_x,self.player_y)
+            self.action_player_enters_square()
         else:
             self.log.append("Blocked "+ str(dx)+" "+str(dy))
 
-    def action_player_enters_square(self, x, y):
-        self.player_score += 1
-        self.map_cosmetic_fg[x][y] = 0
-        self.map_cosmetic_bg[x][y] = 9
+    def action_player_enters_square(self):
+        self.examine_surroundings()
+        if self.mapdata[self.player_x][self.player_y] == 1:
+            self.player_score += 1
+            self.log.append("Found a rock")
+        #else:
+        #    self.log.append("Nothing here")
+        self.mapdata[self.player_x][self.player_y] = 0
+        self.map_cosmetic_fg[self.player_x][self.player_y] = 0
+        self.map_cosmetic_bg[self.player_x][self.player_y] = 9
+
+
+    def examine_cell(self, dx, dy):
+        if self.is_in_bounds(dx, dy):
+            if self.mapdata[self.player_x+dx][self.player_y+dy] > 0:
+                self.map_cosmetic_fg[self.player_x+dx][self.player_y+dy] = 1
+
+    def examine_surroundings(self):
+        self.examine_cell(-1,-1)
+        self.examine_cell(-1, 0)
+        self.examine_cell(-1,+1)
+        self.examine_cell( 0,-1)
+        self.examine_cell( 0,+1)
+        self.examine_cell(+1,-1)
+        self.examine_cell(+1, 0)
+        self.examine_cell(+1,+1)

@@ -41,6 +41,6 @@ if __name__ == "__main__":
     terminal.composition(True)
     tiles.load_tiles()
     mainLoop()
-    terminal.set("U+E200: none")
-    terminal.composition(False)
+#    terminal.set("U+E200: none")
+#    terminal.composition(False)
     terminal.close()
