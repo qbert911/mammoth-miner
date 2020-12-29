@@ -1,11 +1,13 @@
 
-tilelist = [("wall", "white", 0xE200+8),
-            ("dirt0", "white", 0xE000+0),
-            ("dirt1", "orange", 0xE000+2),
-            ("dirt2", "green", 0xE000+3),
-            ("dirt3", "gray", 0xE000+4),
-            ("dirt4", "dark gray", 0xE000+5),
-            ("rock", "white", 0xE100+1)
+tilelist = [("wall",  "white", 0xE108),
+            ("dirt0", "white", 0xE000),
+            ("dirt1", "white", 0xE001),
+            ("dirt2", "white", 0xE002),
+            ("dirt3", "white", 0xE003),
+            ("dirt4", "white", 0xE004),
+            ("dirt9", "gray", 0xE004),
+            ("find1", "white", 0xE020),
+            ("player","white", 0xE400)
            ]
 #------------------------------------------------------------------------------#
 MESSAGE_SIZE_Y = 3

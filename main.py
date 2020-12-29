@@ -1,9 +1,9 @@
 """
-This code starts a new world
+This code starts a new world and runs the main loop, waiting for each keypress
 """
 # pylint: disable=C0103,C0301
 from bearlibterminal import terminal
-import load
+import tiles
 import constants
 import world
 
@@ -22,13 +22,13 @@ def mainLoop():
         elif key == terminal.TK_KP_PLUS:
             constants.SCALE += 1
             w.log.append("Zoomed in - scale set to: "+str(constants.SCALE))
-            load.tiles()
+            tiles.load_tiles()
             terminal.set("font: VeraMono.ttf, size="+str(constants.FONT_SIZE_X*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
             terminal.set("font: VeraMono.ttf, size="+str(constants.FONT_SIZE_X*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
         elif key == terminal.TK_KP_MINUS:
             constants.SCALE -= 1
             w.log.append("Zoomed out - scale set to: "+str(constants.SCALE))
-            load.tiles()
+            tiles.load_tiles()
             terminal.set("font: VeraMono.ttf, size="+str(constants.FONT_SIZE_X*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
         else:
             pass #ignore input
@@ -39,7 +39,7 @@ if __name__ == "__main__":
                  ", title='mm .01'; font: VeraMono.ttf, size="+
                  str(constants.FONT_SIZE_X*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
     terminal.composition(True)
-    load.tiles()
+    tiles.load_tiles()
     mainLoop()
     terminal.set("U+E200: none")
     terminal.composition(False)
