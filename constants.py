@@ -11,7 +11,7 @@ tilelist = [("wall", "white", 0xE200+8),
 MESSAGE_SIZE_Y = 3
 STATS_PANEL_X = 10
 CELLS_ACROSS = 40
-CELLS_DOWN = 24
+CELLS_DOWN = 20
 
 SCALE = 2
 

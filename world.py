@@ -70,4 +70,4 @@ class World:
         terminal.refresh()
 
     def try_move(self, inputkey):
-        pass
+        self.log.append("moved"+ str(inputkey))

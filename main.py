@@ -7,7 +7,7 @@ import load
 import constants
 import world
 
-mykeys = [ terminal.TK_DOWN, terminal.TK_UP, terminal.TK_LEFT, terminal.TK_RIGHT]
+MOVE_keys = [ terminal.TK_DOWN, terminal.TK_UP, terminal.TK_LEFT, terminal.TK_RIGHT]
 
 def mainLoop():
     w = world.World()
@@ -17,20 +17,17 @@ def mainLoop():
         key = terminal.read()
         if key in (terminal.TK_ESCAPE, terminal.TK_CLOSE):
             break
-        if key in mykeys:
-            sti = "moved"+ str(key)
-            w.log.append(sti)
+        if key in MOVE_keys:
+            w.try_move(key)
         elif key == terminal.TK_KP_PLUS:
             constants.SCALE += 1
-            sti = "Scale set to: "+str(constants.SCALE)
-            w.log.append(sti)
+            w.log.append("Zoomed in - scale set to: "+str(constants.SCALE))
             load.tiles()
             terminal.set("font: VeraMono.ttf, size="+str(constants.FONT_SIZE_X*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
             terminal.set("font: VeraMono.ttf, size="+str(constants.FONT_SIZE_X*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
         elif key == terminal.TK_KP_MINUS:
             constants.SCALE -= 1
-            sti = "Scale set to: "+str(constants.SCALE)
-            w.log.append(sti)
+            w.log.append("Zoomed out - scale set to: "+str(constants.SCALE))
             load.tiles()
             terminal.set("font: VeraMono.ttf, size="+str(constants.FONT_SIZE_X*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
         else:
