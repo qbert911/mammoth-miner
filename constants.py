@@ -1,3 +1,5 @@
+from bearlibterminal import terminal
+
 MESSAGE_SIZE_Y = 3
 STATS_PANEL_X = 10
 CELLS_ACROSS = 40
@@ -17,3 +19,5 @@ VIEWPORT_SIZE_Y = CONSOLE_SIZE_Y - MESSAGE_SIZE_Y
 
 MAP_SIZE_X = VIEWPORT_SIZE_X
 MAP_SIZE_Y = VIEWPORT_SIZE_Y
+
+MOVE_keys = [ terminal.TK_DOWN, terminal.TK_UP, terminal.TK_LEFT, terminal.TK_RIGHT]

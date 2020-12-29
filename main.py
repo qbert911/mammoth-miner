@@ -7,8 +7,6 @@ import tiles
 import constants
 import world
 
-MOVE_keys = [ terminal.TK_DOWN, terminal.TK_UP, terminal.TK_LEFT, terminal.TK_RIGHT]
-
 def mainLoop():
     w = world.World()
     key = None
@@ -17,7 +15,7 @@ def mainLoop():
         key = terminal.read()
         if key in (terminal.TK_ESCAPE, terminal.TK_CLOSE):
             break
-        if key in MOVE_keys:
+        if key in constants.MOVE_keys:
             w.try_move(key)
         elif key == terminal.TK_KP_PLUS:
             constants.SCALE += 1
@@ -41,6 +39,4 @@ if __name__ == "__main__":
     terminal.composition(True)
     tiles.load_tiles()
     mainLoop()
-#    terminal.set("U+E200: none")
-#    terminal.composition(False)
     terminal.close()

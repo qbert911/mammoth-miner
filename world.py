@@ -16,9 +16,9 @@ class World:
         self.player_x = 10
         self.player_y = 10
         self.player_score = 0
-        self.mapdata = [[int(random.random()*2) for i in range(constants.MAP_SIZE_Y)]
+        self.mapdata = [[int(random.random()*1.1) for i in range(constants.MAP_SIZE_Y)]
                                                 for j in range(constants.MAP_SIZE_X)]
-        self.map_cosmetic_bg = [[int(random.random()*5) for i in range(constants.MAP_SIZE_Y)]
+        self.map_cosmetic_bg = [[int(random.random()*8) for i in range(constants.MAP_SIZE_Y)]
                                                         for j in range(constants.MAP_SIZE_X)]
         self.map_cosmetic_fg = [[int(0) for i in range(constants.MAP_SIZE_Y)]
                                         for j in range(constants.MAP_SIZE_X)]
@@ -33,22 +33,20 @@ class World:
 
     def draw_screen(self):
         terminal.clear()
-#Draw map background then foreground
         for x in range(int(constants.VIEWPORT_SIZE_X)):
             for y in range(constants.VIEWPORT_SIZE_Y):
-                #draw each tile background
+#draw each tile background
                 mytile = "dirt"+str(self.map_cosmetic_bg[x+self.view_offset_x][y+self.view_offset_y])
                 terminal.color(tiles.seek_tile_color(mytile))
                 terminal.put(x*constants.XFACTOR, y, tiles.seek_tile(mytile))
-                #draw text on top if desired
+#draw text on top if desired
                 if self.mapdata[x+self.view_offset_x][y+self.view_offset_y] > 0:
                     myout = "" #self.mapdata[x+self.view_offset_x][y+self.view_offset_y]
-                    #myout = self.map_cosmetic_fg[x+self.view_offset_x][y+self.view_offset_y] #for testing
+                    #myout = self.map_cosmetic_bg[x+self.view_offset_x][y+self.view_offset_y] #for testing
                 else:
                     myout = ""
                 terminal.puts(x*constants.XFACTOR, y, str(myout).rjust(2))
-
-                #draw each symbol on top of background
+#draw each foreground symbol on top of background
                 if self.map_cosmetic_fg[x+self.view_offset_x][y+self.view_offset_y] > 0:
                     mytile = "find"+str(self.map_cosmetic_fg[x+self.view_offset_x][y+self.view_offset_y])
                     terminal.color(tiles.seek_tile_color(mytile))

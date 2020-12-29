@@ -5,16 +5,19 @@ Loads tiles and provides lookup functions
 from bearlibterminal import terminal
 import constants
 
-tilelist = [("wall",  "white", 0xE108),     #wall for border
-            ("dirt0", "white", 0xE000),
-            ("dirt1", "white", 0xE001),
-            ("dirt2", "white", 0xE002),
-            ("dirt3", "white", 0xE003),
-            ("dirt4", "white", 0xE004),
-            ("dirt9", "gray",  0xE004),     #dark dirt
-            ("find0", "white", 0xE125),     #blank tile
-            ("find1", "white", 0xE020),     #rock overlay
-            ("player","white", 0xE400)      #dwarf icon
+tilelist = [("wall",  "white", 0xE100+8),       #wall for border
+            ("dirt0", "dark white", 0xE100+19), #recolored sand tile from tiles.png
+            ("dirt1", "gray", 0xE100+19),       #recolored sand tile from tiles.png
+            ("dirt2", "dark gray", 0xE100+19),  #recolored sand tile from tiles.png
+            ("dirt3", "white", 0xE000+0),
+            ("dirt4", "white", 0xE000+1),
+            ("dirt5", "white", 0xE000+2),
+            ("dirt6", "white", 0xE000+3),
+            ("dirt7", "white", 0xE000+4),
+            ("dirt9", "gray",  0xE000+4),       #dark dirt for explored areas
+            ("find0", "white", 0xE400+1348),    #blank tile
+            ("find1", "white", 0xE400+1588),    #? overlay
+            ("player","white", 0xE400+13)       #character
            ]
 #------------------------------------------------------------------------------#
 def load_tiles():
@@ -26,10 +29,9 @@ def load_tiles():
 
     terminal.set("U+E020: tiles/rock0.png, size=32x32, align=top-left, resize="+str(constants.FONT_SIZE_Y*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
 
-    terminal.set("U+E400: tiles/dwarf.png, size=32x32, align=top-left, resize="+str(constants.FONT_SIZE_Y*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
-
     terminal.set("U+E100: tiles/Tiles.png, size=32x32, align=top-left, resize="+str(constants.FONT_SIZE_Y*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
-    terminal.set("U+E200: tiles/trees_plants_rocks.png, size=32x32, align=top-left, resize="+str(constants.FONT_SIZE_Y*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
+#    terminal.set("U+E200: tiles/trees_plants_rocks.png, size=32x32, align=top-left, resize="+str(constants.FONT_SIZE_Y*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
+    terminal.set("U+E400: tiles/rltiles-2d.png, size=32x32, align=top-left, resize="+str(constants.FONT_SIZE_Y*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
 
 def seek_tile(wor):
     for x in range(len(tilelist)):
