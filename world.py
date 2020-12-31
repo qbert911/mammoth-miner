@@ -42,13 +42,14 @@ class World:
 #Draw message log
         for m in range(constants.MESSAGE_SIZE_Y+1):
             terminal.puts(0, constants.CONSOLE_SIZE_Y-m, self.log[-m])
-#Draw info panel
-        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 0, "Score:")
-        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 1, str(self.player_score))
-        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 4, str(self.player_x)+" "+str(self.player_y))
-        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 10, "view "+str(constants.MAP_SIZE_X)+" "+str(constants.MAP_SIZE_Y))
-        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 11, str(constants.STATS_PANEL_X)+"(/"+str(constants.XFACTOR)+") "+str(constants.MESSAGE_SIZE_Y))
-        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 14, str(constants.CELLS_ACROSS)+" "+str(constants.CELLS_DOWN))
+#Draw side info panel
+        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 0, "Score:"+str(self.player_score))
+        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 1, "x:"+str(self.player_x)+" y:"+str(self.player_y))
+        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 3, "+/- scale:"+str(constants.SCALE))
+        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 6, "o/p tick:"+str(constants.TICKS_PER_ACTION))
+        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 7, "k/l delay:"+str(constants.DELAY_PER_TICK))
+        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 15, "view:"+str(constants.MAP_SIZE_X)+"x"+str(constants.MAP_SIZE_Y))
+        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 16, "win:"+str(constants.CELLS_ACROSS)+"x"+str(constants.CELLS_DOWN))
 #Draw border
         for y in range(constants.CONSOLE_SIZE_Y):
             terminal.color(tiles.seek_tile_color("wall")) #unneeded

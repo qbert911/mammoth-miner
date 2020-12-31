@@ -29,15 +29,27 @@ def mainLoop():
             terminal.set("font: tiles/VeraMono.ttf, size="+str(constants.FONT_SIZE_X*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
             terminal.set("font: tiles/VeraMono.ttf, size="+str(constants.FONT_SIZE_X*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
         elif key == terminal.TK_KP_MINUS:
-            constants.SCALE -= 1
+            constants.SCALE = max(constants.SCALE - 1, 1)
             w.log.append("Zoomed out - scale set to: "+str(constants.SCALE))
             w.dirty_tiles = True
             terminal.set("font: tiles/VeraMono.ttf, size="+str(constants.FONT_SIZE_X*constants.SCALE)+"x"+str(constants.FONT_SIZE_Y*constants.SCALE))
+        elif key == terminal.TK_P:
+            constants.TICKS_PER_ACTION += 1
+            w.log.append("Ticks set to: "+str(constants.TICKS_PER_ACTION))
+        elif key == terminal.TK_O:
+            constants.TICKS_PER_ACTION = max(constants.TICKS_PER_ACTION - 1, 1)
+            w.log.append("Ticks set to: "+str(constants.TICKS_PER_ACTION))
+        elif key == terminal.TK_L:
+            constants.DELAY_PER_TICK += 1
+            w.log.append("Delay set to: "+str(constants.DELAY_PER_TICK))
+        elif key == terminal.TK_K:
+            constants.DELAY_PER_TICK = max(constants.DELAY_PER_TICK - 1, 0)
+            w.log.append("Delay set to: "+str(constants.DELAY_PER_TICK))
         else:
             pass #ignore input
     #do game world processing between turns
         for a in range(constants.TICKS_PER_ACTION):
-            w.log[-1] += ("tick "+str(a+1))
+            w.log[-1] += (".")
             w.do_gravity_stuff()
             w.draw_screen()
             time.sleep(constants.DELAY_PER_TICK/1000)
