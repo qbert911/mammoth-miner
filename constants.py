@@ -1,5 +1,8 @@
 from bearlibterminal import terminal
 
+TICKS_PER_ACTION = 1
+DELAY_PER_TICK = 50
+
 MESSAGE_SIZE_Y = 3
 STATS_PANEL_X = 10
 CELLS_ACROSS = 40
