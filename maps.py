@@ -1,5 +1,6 @@
 """
-This code defines the world class and all the interaction between elements
+This code defines the Map class which is a series of 2D arrays
+
 """
 # pylint: disable=C0103,C0301
 import random
@@ -13,22 +14,38 @@ def is_in_bounds(xin,yin):
 
 class Map:
     def __init__(self):
-        self.mapdata = [[int(random.random()*1.13) for i in range(constants.MAP_SIZE_Y)]
-                                                for j in range(constants.MAP_SIZE_X)]
-        self.map_cosmetic_bg = [[int(random.random()*8) for i in range(constants.MAP_SIZE_Y)]
-                                                        for j in range(constants.MAP_SIZE_X)]
-        self.map_cosmetic_fg = [[int(0) for i in range(constants.MAP_SIZE_Y)]
-                                        for j in range(constants.MAP_SIZE_X)]
+        self.earth = [[int(0) for i in range(constants.MAP_SIZE_Y)]
+                             for j in range(constants.MAP_SIZE_X)]
+        self.water = [[int(0) for i in range(constants.MAP_SIZE_Y)]
+                              for j in range(constants.MAP_SIZE_X)]
+        self.air = [[int(0) for i in range(constants.MAP_SIZE_Y)]
+                          for j in range(constants.MAP_SIZE_X)]
+        self.treasure = [[int(0) for i in range(constants.MAP_SIZE_Y)]
+                            for j in range(constants.MAP_SIZE_X)]
+        self.discovered = [[int(0) for i in range(constants.MAP_SIZE_Y)]
+                                   for j in range(constants.MAP_SIZE_X)]
+        self.random_background = [[int(random.random()*8) for i in range(constants.MAP_SIZE_Y)]
+                                                          for j in range(constants.MAP_SIZE_X)]
+
+    def miner_setup_map(self):
+        self.treasure = [[int(random.random()*1.13) for i in range(constants.MAP_SIZE_Y)]
+                                               for j in range(constants.MAP_SIZE_X)]
+        for y in range(constants.MAP_SIZE_Y):
+            for x in range(constants.MAP_SIZE_X):
+                if y > 2 and x < constants.MAP_SIZE_X - 1:
+                    self.earth[x][y] = 5
+                    self.water[x][y] = int(random.random()*4)
 
     def hollow_square(self,x,y):
-        self.mapdata[x][y] = 0
-        self.map_cosmetic_fg[x][y] = 0
-        self.map_cosmetic_bg[x][y] = 9
+        self.treasure[x][y] = 0
+        self.discovered[x][y] = 0
+        self.random_background[x][y] = 9
+        self.earth[x][y]=0
 
     def examine_cell(self, dx, dy):
         if is_in_bounds(dx, dy):
-            if self.mapdata[dx][dy] > 0:
-                self.map_cosmetic_fg[dx][dy] = 1
+            if self.treasure[dx][dy] > 0:
+                self.discovered[dx][dy] = 1
 
     def examine_surroundings(self,x,y):
         self.examine_cell(-1+x,-1+y)
