@@ -17,11 +17,16 @@ def mainLoop():
     w.draw_screen()
     key = None
     while key not in (terminal.TK_CLOSE, terminal.TK_ESCAPE):
+        NOT_A_MOVE_KEY = True
         key = terminal.read()
         if key in (terminal.TK_ESCAPE, terminal.TK_CLOSE):
             break
-        if key in constants.MOVE_keys:
+        if key in constants.MOVE_keys:   #command character to move
             w.try_move(key)
+            NOT_A_MOVE_KEY = False
+        elif key == terminal.TK_PERIOD:  #command character to rest in place
+            NOT_A_MOVE_KEY = False
+            pass
         elif key == terminal.TK_KP_PLUS:
             constants.SCALE += 1
             w.log.append("Zoomed in - scale set to: "+str(constants.SCALE))
@@ -47,14 +52,14 @@ def mainLoop():
             w.log.append("Delay set to: "+str(constants.DELAY_PER_TICK))
         else:
             pass #ignore input
+
     #do game world processing between turns
         for a in range(constants.TICKS_PER_ACTION):
-            w.log[-1] += (".")
-            w.do_gravity_stuff()
+            if not NOT_A_MOVE_KEY:      #dont process game world if we are zooming, etc
+                w.log[-1] += (".")
+                w.do_gravity_stuff()
             w.draw_screen()
             time.sleep(constants.DELAY_PER_TICK/1000)
-
-
 
 if __name__ == "__main__":
     terminal.open()

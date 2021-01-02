@@ -26,7 +26,7 @@ class World:
         self.log.append("Let's get mining...")
 
     def do_gravity_stuff(self):
-        pass
+        self.this_map.do_gravity_stuff()
 
     def startup_menu(self):
         pass
@@ -53,7 +53,10 @@ class World:
         terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 9, "a:"+str(sum(map(sum,self.this_map.air))))
         terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 10, "e:"+str(sum(map(sum,self.this_map.earth))))
         terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 11, "w:"+str(sum(map(sum,self.this_map.water))))
-        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 15, "view:"+str(constants.MAP_SIZE_X)+"x"+str(constants.MAP_SIZE_Y))
+
+        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 13, "tot:"+str(sum(map(sum,self.this_map.water))+sum(map(sum,self.this_map.earth))+sum(map(sum,self.this_map.air))))
+
+        terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 15, "viewp:"+str(constants.MAP_SIZE_X)+"x"+str(constants.MAP_SIZE_Y))
         terminal.puts(constants.CONSOLE_SIZE_X-constants.STATS_PANEL_X, 16, "win:"+str(constants.CELLS_ACROSS)+"x"+str(constants.CELLS_DOWN))
 #earth.sum()
 #Draw border

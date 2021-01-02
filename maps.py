@@ -18,7 +18,7 @@ class Map:
                              for j in range(constants.MAP_SIZE_X)]
         self.water = [[int(0) for i in range(constants.MAP_SIZE_Y)]
                               for j in range(constants.MAP_SIZE_X)]
-        self.air = [[int(0) for i in range(constants.MAP_SIZE_Y)]
+        self.air = [[int(10) for i in range(constants.MAP_SIZE_Y)]
                           for j in range(constants.MAP_SIZE_X)]
         self.treasure = [[int(0) for i in range(constants.MAP_SIZE_Y)]
                             for j in range(constants.MAP_SIZE_X)]
@@ -32,15 +32,17 @@ class Map:
                                                for j in range(constants.MAP_SIZE_X)]
         for y in range(constants.MAP_SIZE_Y):
             for x in range(constants.MAP_SIZE_X):
+                self.water[x][y] = int(random.random()*4)
                 if y > 2 and x < constants.MAP_SIZE_X - 1:
                     self.earth[x][y] = 5
-                    self.water[x][y] = int(random.random()*4)
+                self.airate(x,y)
 
     def hollow_square(self,x,y):
         self.treasure[x][y] = 0
         self.discovered[x][y] = 0
         self.random_background[x][y] = 9
         self.earth[x][y]=0
+        self.airate(x,y)
 
     def examine_cell(self, dx, dy):
         if is_in_bounds(dx, dy):
@@ -56,3 +58,15 @@ class Map:
         self.examine_cell(+1+x,-1+y)
         self.examine_cell(+1+x, 0+y)
         self.examine_cell(+1+x,+1+y)
+
+    def airate(self,x,y):
+        self.air[x][y] = 10 - self.earth[x][y] - self.water[x][y]
+
+    def do_gravity_stuff(self):
+        for y in range(constants.MAP_SIZE_Y-1,0,-1):
+            for x in range(constants.MAP_SIZE_X):
+                if self.water[x][y-1] > 0 and self.air[x][y] > 0:
+                    self.water[x][y] += 1
+                    self.water[x][y-1] -= 1
+                    self.airate(x,y)
+                    self.airate(x,y-1)
